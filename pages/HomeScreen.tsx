@@ -1,25 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {StatusBar} from "expo-status-bar";
-// @ts-ignore
-import vacaLogo from './assets/vaca.png';
+import MyButton from "../components/MyButton";
+import * as SQLite from 'expo-sqlite';
+
+const db = SQLite.openDatabase('vacas.db');
+
 import {
     StyleSheet,
-    Text,
     TextInput,
     View,
-    TouchableOpacity,
     Image,
     Alert
 } from 'react-native';
 
 export default function HomeScreen() {
+
     const [vacaState, setVaca] = React.useState('Nombre de la vaca');
     const [areteo, setAreteo] = React.useState('Numero de areteo');
     const [color, setColor] = React.useState('Color');
 
+    useEffect(()=>{
+        console.log("montado")
+    }, [])
+    useEffect(()=>{
+            console.log("componentes actualizado")
+        },[color,areteo,vacaState])
+    useEffect(()=>{
+
+        return ()=>{
+            console.log("desmontado")
+        }
+    })
+
     return (
         <View style={styles.container}>
-            <Image source={vacaLogo} style={styles.imagen} />
+            <Image source={require("../assets/vacalogo.jpg")} style={styles.imagen}/>
             <TextInput
                 placeholder='Nombre de la vaca'
                 onChangeText={setVaca}
@@ -35,13 +50,11 @@ export default function HomeScreen() {
                 onChangeText={setColor}
                 style={styles.input}
             />
-            <TouchableOpacity
-                style={styles.boton}
-                onPress={() => Alert.alert('Variables', vacaState + areteo + color)}
-            >
-                <Text style={styles.textinButton}>Enviar</Text>
-            </TouchableOpacity>
-            <StatusBar style="auto" />
+            <MyButton
+                title="Enviar"
+                customCLick={() => Alert.alert('Notificación', 'Elemento Enviado = ' + vacaState + ' ' + areteo + ' ' + color)}
+            />
+            <StatusBar style="auto"/>
         </View>
     );
 }
@@ -51,14 +64,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
-    },
-    boton: {
-        alignItems: "center",
-        backgroundColor: "#FE434C",
-        borderRadius: 10,
-        padding: 10,
-        borderColor: "#7a42f4",
-        borderWidth: 1,
     },
     imagen: {
         height: 200,
@@ -73,8 +78,5 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         borderWidth: 1.5,
         borderRadius: 5,
-    },
-    textinButton: {
-        color: "white"
     },
 });
