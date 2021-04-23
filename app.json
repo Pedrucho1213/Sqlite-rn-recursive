@@ -4,7 +4,7 @@
     "slug": "Sqlite-rn-recursive",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/vacalogo.jpg",
+    "icon": "./assets/vacalogo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
